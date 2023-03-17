@@ -27,22 +27,22 @@ function TaskIltration(array) {
         >${task.taskDescription}</span
       >
     </label>
-    <div class="div-block">
+    <div class="div-block" id="cross">
       <img
         src="images/x-icon.svg"
+        id ="${task.taskDescription}"
         loading="lazy"
         style="
-          opacity: 0;
-          -webkit-transform: translate3d(40px, 0, 0)
+          -webkit-transform: translate3d(1px, 0, 0)
             scale3d(1, 1, 1) rotateX(0) rotateY(0)
             rotateZ(0) skew(0, 0);
-          -moz-transform: translate3d(40px, 0, 0)
+          -moz-transform: translate3d(1px, 0, 0)
             scale3d(1, 1, 1) rotateX(0) rotateY(0)
             rotateZ(0) skew(0, 0);
-          -ms-transform: translate3d(40px, 0, 0)
+          -ms-transform: translate3d(1px, 0, 0)
             scale3d(1, 1, 1) rotateX(0) rotateY(0)
             rotateZ(0) skew(0, 0);
-          transform: translate3d(40px, 0, 0)
+          transform: translate3d(1px, 0, 0)
             scale3d(1, 1, 1) rotateX(0) rotateY(0)
             rotateZ(0) skew(0, 0);
         "
@@ -91,22 +91,22 @@ newTask.addEventListener("keypress", (event) => {
         >${event.target.value}</span
       >
     </label>
-    <div class="div-block">
+    <div class="div-block" id="cross" ">
       <img
+      id ="${event.target.value}"
         src="images/x-icon.svg"
         loading="lazy"
         style="
-          opacity: 0;
-          -webkit-transform: translate3d(40px, 0, 0)
+          -webkit-transform: translate3d(1px, 0, 0)
             scale3d(1, 1, 1) rotateX(0) rotateY(0)
             rotateZ(0) skew(0, 0);
-          -moz-transform: translate3d(40px, 0, 0)
+          -moz-transform: translate3d(1px, 0, 0)
             scale3d(1, 1, 1) rotateX(0) rotateY(0)
             rotateZ(0) skew(0, 0);
-          -ms-transform: translate3d(40px, 0, 0)
+          -ms-transform: translate3d(1px, 0, 0)
             scale3d(1, 1, 1) rotateX(0) rotateY(0)
             rotateZ(0) skew(0, 0);
-          transform: translate3d(40px, 0, 0)
+          transform: translate3d(1px, 0, 0)
             scale3d(1, 1, 1) rotateX(0) rotateY(0)
             rotateZ(0) skew(0, 0);
         "
@@ -128,3 +128,18 @@ function modifieTaskList(taskdddd) {
   });
   chrome.storage.sync.set({ userTasks: userTasks.TasksList });
 }
+
+document.addEventListener("click", function (e) {
+  const target = e.target.closest("#cross"); // Or any other selector.
+
+  if (target) {
+    userTasks.TasksList.splice(
+      userTasks.TasksList.findIndex(
+        ({ taskDescription }) => taskDescription == e.target.id
+      ),
+      1
+    );
+    chrome.storage.sync.set({ userTasks: userTasks.TasksList });
+    document.location.reload();
+  }
+});

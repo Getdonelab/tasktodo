@@ -133,7 +133,6 @@ document.addEventListener("click", function (e) {
   const target = e.target.closest("#cross"); // Or any other selector.
 
   if (target) {
-    console.log("here");
     userTasks.TasksList.splice(
       userTasks.TasksList.findIndex(
         ({ taskDescription }) => taskDescription == e.target.id
@@ -142,6 +141,5 @@ document.addEventListener("click", function (e) {
     );
     chrome.storage.sync.set({ userTasks: userTasks.TasksList });
     document.location.reload();
-    console.log(userTasks.TasksList);
   }
 });

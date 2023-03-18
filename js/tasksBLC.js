@@ -13,7 +13,12 @@ function TaskIltration(array) {
   >
     <label class="w-checkbox checkbox-field">
       <div
-        class="w-checkbox-input w-checkbox-input--inputType-custom checkbox"
+      
+      id="task"
+      txtcontent="${task.taskDescription}"
+        class="w-checkbox-input w-checkbox-input--inputType-custom checkbox ${
+          task.check ? "w--redirected-checked" : ""
+        }"
       ></div>
       <input
         type="checkbox"
@@ -22,7 +27,10 @@ function TaskIltration(array) {
         data-name="Checkbox 3"
         style="opacity: 0; position: absolute; z-index: -1"
       /><span
-        class="checkbox-label w-form-label"
+
+      style="${task.check ? "text-decoration:line-through ; opacity:0.6" : ""}"
+      
+        class="checkbox-label w-form-label strike"
         for="checkbox-3"
         >${task.taskDescription}</span
       >
@@ -59,7 +67,7 @@ function TaskIltration(array) {
 window.onload = () => {
   chrome.storage.sync.get("userTasks", function (tz) {
     if (tz.userTasks.length > 0) {
-      userTasks = { TasksList: [...tz.userTasks] };
+      userTasks = { TasksList: [...tz.userTasks.reverse()] };
       TaskIltration(tz);
     }
   });
@@ -70,14 +78,18 @@ newTask.addEventListener("keypress", (event) => {
   if (event.key === "Enter") {
     event.preventDefault();
 
-    var newTextNode = document.getElementById("appendNewChild");
+    var newTextNode = document.getElementsByClassName("taskTodos")[0];
     var stringNode = `<div
     data-w-id="f9655d9a-c9ef-4b52-07e0-d4021edf82cf"
     class="command-menu-option"
   >
     <label class="w-checkbox checkbox-field">
       <div
-        class="w-checkbox-input w-checkbox-input--inputType-custom checkbox"
+      id="task"
+      txtcontent="${event.target.value}"
+        class="w-checkbox-input w-checkbox-input--inputType-custom checkbox ${
+          event.target.check ? "w--redirected-checked" : ""
+        }"
       ></div>
       <input
         type="checkbox"
@@ -86,7 +98,12 @@ newTask.addEventListener("keypress", (event) => {
         data-name="Checkbox 3"
         style="opacity: 0; position: absolute; z-index: -1"
       /><span
-        class="checkbox-label w-form-label"
+
+        style="${
+          event.target.check ? "text-decoration:line-through ; opacity:0.6" : ""
+        }"
+      
+        class="checkbox-label w-form-label strike"
         for="checkbox-3"
         >${event.target.value}</span
       >
@@ -115,7 +132,8 @@ newTask.addEventListener("keypress", (event) => {
         class="delete-icon"
       />
     </div>`;
-    newTextNode.insertAdjacentHTML("afterend", stringNode);
+
+    newTextNode.insertAdjacentHTML("beforeend", stringNode);
     modifieTaskList(event.target.value);
     newTask.value = "";
   }
@@ -123,13 +141,14 @@ newTask.addEventListener("keypress", (event) => {
 
 function modifieTaskList(taskdddd) {
   userTasks.TasksList.push({
-    cheked: false,
     taskDescription: taskdddd,
+    check: false,
   });
   chrome.storage.sync.set({ userTasks: userTasks.TasksList });
 }
 
 document.addEventListener("click", function (e) {
+  const radio = e.target.closest("#task");
   const target = e.target.closest("#cross"); // Or any other selector.
 
   if (target) {
@@ -140,6 +159,49 @@ document.addEventListener("click", function (e) {
       1
     );
     chrome.storage.sync.set({ userTasks: userTasks.TasksList });
-    document.location.reload();
+
+    target.closest(".command-menu-option").remove();
+  } else if (radio) {
+    const index = userTasks.TasksList.findIndex(
+      ({ taskDescription }) =>
+        taskDescription == e.target.getAttribute("txtcontent")
+    );
+
+    userTasks.TasksList[index].check = !userTasks.TasksList[index].check;
+
+    chrome.storage.sync.set({ userTasks: userTasks.TasksList });
+
+    var prnt = radio.parentElement;
+
+    if (userTasks.TasksList[index].check) {
+      var TaskText = prnt.querySelector("span");
+      var checkbox = prnt.querySelector("#task");
+      var taskItem = prnt.closest(".command-menu-option");
+      var taskTodos = prnt.closest(".taskTodos");
+
+      prnt.closest(".command-menu-option").remove();
+
+      taskTodos.appendChild(taskItem);
+
+      var tempUser = userTasks.TasksList[index];
+
+      userTasks.TasksList.splice(index, 1);
+
+      userTasks.TasksList.push(tempUser);
+
+      chrome.storage.sync.set({ userTasks: userTasks.TasksList });
+
+      checkbox.classList.add("w--redirected-checked");
+
+      TaskText.style.textDecoration = "line-through";
+      TaskText.style.opacity = "0.6";
+    } else {
+      var TaskText = prnt.querySelector("span");
+      var checkbox = prnt.querySelector("#task");
+
+      checkbox.classList.remove("w--redirected-checked");
+      TaskText.style.textDecoration = "none";
+      TaskText.style.opacity = "1";
+    }
   }
 });

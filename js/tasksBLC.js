@@ -17,6 +17,7 @@ function TaskIltration(array) {
     var stringNode = `<div
     data-w-id="f9655d9a-c9ef-4b52-07e0-d4021edf82cf"
     class="command-menu-option"
+    id="${task.id}"
   >
     <label class="w-checkbox checkbox-field">
       <div
@@ -27,13 +28,8 @@ function TaskIltration(array) {
           task.check ? "w--redirected-checked" : ""
         }"
       ></div>
-      <input
-        type="checkbox"
-        id="checkbox-3"
-        name="checkbox-3"
-        data-name="Checkbox 3"
-        style="opacity: 0; position: absolute; z-index: -1"
-      /><span
+      <span
+      contenteditable="true"
 
       style="${task.check ? "text-decoration:line-through ; opacity:0.6" : ""}"
       
@@ -73,6 +69,7 @@ function TaskIltration(array) {
     var stringNode = `<div
     data-w-id="f9655d9a-c9ef-4b52-07e0-d4021edf82cf"
     class="command-menu-option"
+    id="${task.id}"
   >
     <label class="w-checkbox checkbox-field">
       <div
@@ -83,13 +80,8 @@ function TaskIltration(array) {
           task.check ? "w--redirected-checked" : "checked"
         }"
       ></div>
-      <input
-        type="checkbox"
-        id="checkbox-3"
-        name="checkbox-3"
-        data-name="Checkbox 3"
-        style="opacity: 0; position: absolute; z-index: -1"
-      /><span
+      <span
+      contenteditable="true"
 
       style="${task.check ? "text-decoration:line-through ; opacity:0.6" : ""}"
       
@@ -139,12 +131,14 @@ window.onload = () => {
 var newTask = document.getElementById("myText");
 newTask.addEventListener("keypress", (event) => {
   if (event.key === "Enter") {
+    var _id = uid();
     event.preventDefault();
 
     var newTextNode = document.getElementsByClassName("incomplete")[0];
     var stringNode = `<div
     data-w-id="f9655d9a-c9ef-4b52-07e0-d4021edf82cf"
     class="command-menu-option"
+    id="${_id}"
   >
     <label class="w-checkbox checkbox-field">
       <div
@@ -154,13 +148,8 @@ newTask.addEventListener("keypress", (event) => {
           event.target.check ? "w--redirected-checked" : "checked"
         }"
       ></div>
-      <input
-        type="checkbox"
-        id="checkbox-3"
-        name="checkbox-3"
-        data-name="Checkbox 3"
-        style="opacity: 0; position: absolute; z-index: -1"
-      /><span
+      <span
+      contenteditable="true"
 
         style="${
           event.target.check ? "text-decoration:line-through ; opacity:0.6" : ""
@@ -197,22 +186,46 @@ newTask.addEventListener("keypress", (event) => {
     </div>`;
 
     newTextNode.insertAdjacentHTML("afterbegin", stringNode);
-    modifieTaskList(event.target.value);
+    modifieTaskList(event.target.value, _id);
     newTask.value = "";
   }
 });
 
-function modifieTaskList(taskdddd) {
+function modifieTaskList(taskdddd, _id) {
   userTasks.TasksList.push({
+    id: _id,
     taskDescription: taskdddd,
     check: false,
   });
   chrome.storage.sync.set({ userTasks: userTasks.TasksList });
 }
 
+document.addEventListener("keypress", (e) => {
+  const editTask = e.target.closest("span");
+  if (editTask) {
+    document.addEventListener(
+      "click",
+      (event) => {
+        var isClickInside = editTask.contains(event.target);
+
+        if (!isClickInside) {
+          console.log(editTask.innerHTML);
+          var _id = editTask.parentElement.parentElement.id;
+
+          var index = userTasks.TasksList.findIndex(({ id }) => id == _id);
+          userTasks.TasksList[index].taskDescription = editTask.innerHTML;
+          console.log(userTasks.TasksList[index]);
+          chrome.storage.sync.set({ userTasks: userTasks.TasksList.reverse() });
+        }
+      },
+      { once: true }
+    );
+  }
+});
+
 document.addEventListener("click", function (e) {
   const radio = e.target.closest("#task");
-  const target = e.target.closest("#cross"); // Or any other selector.
+  const target = e.target.closest("#cross");
 
   if (target) {
     userTasks.TasksList.splice(
@@ -279,9 +292,15 @@ document.addEventListener("click", function (e) {
         userTasks: [tempUser, ...userTasks.TasksList.reverse()],
       });
 
+      userTasks.TasksList = [tempUser, ...userTasks.TasksList.reverse()];
+
       var tempElement = prnt.closest(".command-menu-option");
       prnt.closest(".command-menu-option").remove();
       incompleteTasks.appendChild(tempElement);
     }
   }
 });
+
+const uid = function () {
+  return Date.now().toString(16) + Math.random().toString(16).slice(2);
+};

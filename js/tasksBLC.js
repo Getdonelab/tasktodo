@@ -19,17 +19,18 @@ function TaskIltration(array) {
     class="command-menu-option"
     id="${task.id}"
   >
+  <div id="completeState" txtcontent="${task.taskDescription}">
     <label class="w-checkbox checkbox-field">
       <div
       
       id="task"
-      txtcontent="${task.taskDescription}"
+      
         class="w-checkbox-input w-checkbox-input--inputType-custom checkbox ${
           task.check ? "w--redirected-checked" : ""
         }"
       ></div>
       <span
-      contenteditable="true"
+      
 
       style="${task.check ? "text-decoration:line-through ; opacity:0.6" : ""}"
       
@@ -38,6 +39,9 @@ function TaskIltration(array) {
         >${task.taskDescription}</span
       >
     </label>
+    </div>
+    <div class="functions">
+    <button class="Todo__Edit">edit</button>
     <div class="div-block" id="cross">
       <img
         src="images/x-icon.svg"
@@ -61,6 +65,7 @@ function TaskIltration(array) {
         alt=""
         class="delete-icon"
       />
+    </div>
     </div>`;
     newTextNode.insertAdjacentHTML("beforeend", stringNode);
   });
@@ -71,17 +76,18 @@ function TaskIltration(array) {
     class="command-menu-option"
     id="${task.id}"
   >
+  <div id="completeState" txtcontent="${task.taskDescription}">
     <label class="w-checkbox checkbox-field">
       <div
       
       id="task"
-      txtcontent="${task.taskDescription}"
+      
         class="w-checkbox-input w-checkbox-input--inputType-custom checkbox ${
           task.check ? "w--redirected-checked" : "checked"
         }"
       ></div>
       <span
-      contenteditable="true"
+      
 
       style="${task.check ? "text-decoration:line-through ; opacity:0.6" : ""}"
       
@@ -90,6 +96,9 @@ function TaskIltration(array) {
         >${task.taskDescription}</span
       >
     </label>
+    </div>
+    <div class="functions">
+    <button class="Todo__Edit">edit</button>
     <div class="div-block" id="cross">
       <img
         src="images/x-icon.svg"
@@ -113,6 +122,7 @@ function TaskIltration(array) {
         alt=""
         class="delete-icon"
       />
+    </div>
     </div>`;
     newTextNode.insertAdjacentHTML("beforeend", stringNode);
   });
@@ -140,16 +150,17 @@ newTask.addEventListener("keypress", (event) => {
     class="command-menu-option"
     id="${_id}"
   >
+  <div id="completeState" txtcontent="${event.target.value}">
     <label class="w-checkbox checkbox-field">
       <div
       id="task"
-      txtcontent="${event.target.value}"
+      
         class="w-checkbox-input w-checkbox-input--inputType-custom checkbox ${
           event.target.check ? "w--redirected-checked" : "checked"
         }"
       ></div>
       <span
-      contenteditable="true"
+      
 
         style="${
           event.target.check ? "text-decoration:line-through ; opacity:0.6" : ""
@@ -160,6 +171,9 @@ newTask.addEventListener("keypress", (event) => {
         >${event.target.value}</span
       >
     </label>
+    </div>
+    <div class="functions">
+    <button class="Todo__Edit">edit</button>
     <div class="div-block" id="cross" ">
       <img
       id ="${event.target.value}"
@@ -183,6 +197,7 @@ newTask.addEventListener("keypress", (event) => {
         alt=""
         class="delete-icon"
       />
+    </div>
     </div>`;
 
     newTextNode.insertAdjacentHTML("afterbegin", stringNode);
@@ -209,13 +224,13 @@ document.addEventListener("keypress", (e) => {
         var isClickInside = editTask.contains(event.target);
 
         if (!isClickInside) {
-          console.log(editTask.innerHTML);
           var _id = editTask.parentElement.parentElement.id;
 
           var index = userTasks.TasksList.findIndex(({ id }) => id == _id);
           userTasks.TasksList[index].taskDescription = editTask.innerHTML;
           console.log(userTasks.TasksList[index]);
           chrome.storage.sync.set({ userTasks: userTasks.TasksList.reverse() });
+          document.querySelector("span").removeAttribute("contenteditable");
         }
       },
       { once: true }
@@ -223,9 +238,27 @@ document.addEventListener("keypress", (e) => {
   }
 });
 
+document.onkeyup = function (event) {
+  const editTask = event.target.closest("span");
+  if (editTask) {
+    //work here not on enter but every key press
+    // event.preventDefault();
+    // document.querySelector("span").removeAttribute("contenteditable");
+    var _id = editTask.parentElement.parentElement.parentElement.id;
+    console.log(_id);
+
+    var index = userTasks.TasksList.findIndex(({ id }) => id == _id);
+    console.log(index);
+    userTasks.TasksList[index].taskDescription = editTask.innerHTML;
+    console.log(userTasks.TasksList[index]);
+    chrome.storage.sync.set({ userTasks: userTasks.TasksList.reverse() });
+  }
+};
+
 document.addEventListener("click", function (e) {
-  const radio = e.target.closest("#task");
+  const radio = e.target.closest("#completeState");
   const target = e.target.closest("#cross");
+  const editTask = e.target.closest(".Todo__Edit");
 
   if (target) {
     userTasks.TasksList.splice(
@@ -240,7 +273,8 @@ document.addEventListener("click", function (e) {
   } else if (radio) {
     const index = userTasks.TasksList.findIndex(
       ({ taskDescription }) =>
-        taskDescription == e.target.getAttribute("txtcontent")
+        taskDescription ==
+        e.target.closest("#completeState").getAttribute("txtcontent")
     );
 
     userTasks.TasksList[index].check = !userTasks.TasksList[index].check;
@@ -265,7 +299,7 @@ document.addEventListener("click", function (e) {
 
       userTasks.TasksList.push(tempUser);
 
-      chrome.storage.sync.set({ userTasks: userTasks.TasksList });
+      chrome.storage.sync.set({ userTasks: userTasks.TasksList.reverse() });
 
       checkbox.classList.remove("checked");
       checkbox.classList.add("w--redirected-checked");
@@ -299,8 +333,35 @@ document.addEventListener("click", function (e) {
       incompleteTasks.appendChild(tempElement);
     }
   }
+  if (editTask) {
+    e.preventDefault();
+
+    var el = editTask.parentElement.parentElement.querySelector("span");
+    el.setAttribute("contenteditable", true);
+    var range, selection;
+    if (document.createRange) {
+      //Firefox, Chrome, Opera, Safari, IE 9+
+      range = document.createRange(); //Create a range (a range is a like the selection but invisible)
+      range.selectNodeContents(el); //Select the entire contents of the element with the range
+      range.collapse(false); //collapse the range to the end point. false means collapse to end rather than the start
+      selection = window.getSelection(); //get the selection object (allows you to change selection)
+      selection.removeAllRanges(); //remove any selections already made
+      selection.addRange(range); //make the range you have just created the visible selection
+    } else if (document.selection) {
+      //IE 8 and lower
+      range = document.body.createTextRange(); //Create a range (a range is a like the selection but invisible)
+      range.moveToElementText(el); //Select the entire contents of the element with the range
+      range.collapse(false); //collapse the range to the end point. false means collapse to end rather than the start
+      range.select(); //Select the range (make it the visible selection
+    }
+  }
 });
 
 const uid = function () {
   return Date.now().toString(16) + Math.random().toString(16).slice(2);
 };
+
+// const editTask = function (e) {
+//   e.preventDefault();
+//   console.log("here");
+// };

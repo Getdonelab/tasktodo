@@ -3,6 +3,19 @@ var userTasks = {
   TasksList: [],
 };
 
+// Toggle the Empty state
+function toggleEmptyState(array) {
+  if (array.length > 0) {
+    document.getElementById("toggleEmptyState").style.display = "none";
+    var element = document.getElementById("email-form");
+    element.classList.remove("form");
+  } else {
+    document.getElementById("toggleEmptyState").style.display = "block";
+    var element = document.getElementById("email-form");
+    element.classList.add("form");
+  }
+}
+
 // Map through each Task
 function TaskIltration(array) {
   var incomplete = array.userTasks.filter((task) => {
@@ -123,7 +136,10 @@ window.onload = () => {
   chrome.storage.sync.get("userTasks", function (tz) {
     if (tz.userTasks.length > 0) {
       userTasks = { TasksList: [...tz.userTasks.reverse()] };
+      toggleEmptyState(tz.userTasks);
       TaskIltration(tz);
+    } else {
+      toggleEmptyState(tz.userTasks);
     }
   });
 };
@@ -191,13 +207,14 @@ newTask.addEventListener("keypress", (event) => {
   }
 });
 
-function modifieTaskList(taskdddd, _id) {
+function modifieTaskList(taskDescription, _id) {
   userTasks.TasksList.push({
     id: _id,
-    taskDescription: taskdddd,
+    taskDescription,
     check: false,
   });
   chrome.storage.sync.set({ userTasks: userTasks.TasksList });
+  toggleEmptyState(userTasks.TasksList);
 }
 
 document.addEventListener("keypress", (e) => {
@@ -235,6 +252,8 @@ document.addEventListener("click", function (e) {
       1
     );
     chrome.storage.sync.set({ userTasks: userTasks.TasksList });
+
+    toggleEmptyState(userTasks.TasksList);
 
     target.closest(".command-menu-option").remove();
   } else if (radio) {

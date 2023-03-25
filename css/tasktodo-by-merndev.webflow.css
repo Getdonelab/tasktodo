@@ -109,6 +109,11 @@ h3 {
   font-weight: 700;
 }
 
+a {
+  color: #f7f8f8;
+  text-decoration: none;
+}
+
 .page-wrapper {
   overflow: hidden;
 }
@@ -431,6 +436,26 @@ h3 {
   color: #000;
 }
 
+.form {
+  min-height: 280px;
+}
+
+.form.new {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
 .feature-img-wrap.dark.about-us.line {
   border-style: solid;
   border-width: 1px;
@@ -552,6 +577,58 @@ h3 {
   position: fixed;
   bottom: 0px;
   width: 100%;
+}
+
+.icon-arow {
+  width: 40px;
+  height: 40px;
+  margin-right: auto;
+  margin-left: auto;
+  color: #f7f8f8;
+}
+
+.text-span {
+  color: rgba(247, 248, 248, 0.7);
+}
+
+.text-span.dark {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.about-links {
+  color: #4388cc;
+  font-size: 15px;
+}
+
+.about-links.big {
+  font-size: 18px;
+}
+
+.text-block-2 {
+  font-size: 14px;
+}
+
+.big {
+  font-size: 16px;
+}
+
+.empty-state-text {
+  margin-left: 0px;
+  background-image: linear-gradient(
+    156deg,
+    #f7f8f8 30%,
+    hsla(0, 0%, 100%, 0.38)
+  );
+  font-size: 14px;
+  text-align: center;
+  letter-spacing: 0em;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.empty-state-text.dark {
+  color: #000;
 }
 
 @media screen and (max-width: 991px) {

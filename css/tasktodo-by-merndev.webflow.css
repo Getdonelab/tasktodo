@@ -1,3 +1,19 @@
+body {
+  animation: fadeInAnimation ease-in-out 2s;
+  animation-iteration-count: 1;
+  animation-fill-mode: both;
+}
+
+/* RND  */
+
+/* @keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+} */
 .w-checkbox {
   display: block;
   margin-bottom: 5px;
@@ -39,7 +55,9 @@
   margin-top: 4px;
   line-height: normal;
 }
-
+.completeState {
+  width: 100%;
+}
 .w-checkbox-input--inputType-custom {
   border-top-width: 1px;
   border-bottom-width: 1px;
@@ -75,6 +93,10 @@
 
 .w-checkbox-input--inputType-custom.w--redirected-focus {
   box-shadow: 0px 0px 3px 1px #3898ec;
+}
+
+.checkbox-label:focus {
+  outline: none;
 }
 
 body {
@@ -349,9 +371,7 @@ a {
   padding-right: 20px;
   padding-left: 20px;
   -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
   -ms-flex-pack: justify;
-  justify-content: space-between;
   -webkit-box-align: center;
   -webkit-align-items: center;
   -ms-flex-align: center;
@@ -360,6 +380,7 @@ a {
   border-bottom: 1px solid hsla(0, 0%, 100%, 0.1);
   font-size: 14px;
   cursor: pointer;
+  transition: 0.3s;
 }
 
 .command-menu-option:hover {
@@ -381,6 +402,29 @@ a {
   background-color: rgba(0, 0, 0, 0.04);
 }
 
+.command-menu-option .functions {
+  opacity: 0;
+}
+.command-menu-option:hover .functions {
+  opacity: 0.7;
+  transition: 0.3s;
+}
+
+.functions {
+  display: flex;
+}
+
+.Todo__Edit {
+  align-items: flex-end;
+  background-color: inherit;
+  color: rgba(180, 188, 208, 0.8);
+  font-size: 0.9em;
+  transition: 0.3s;
+}
+.Todo__Edit:hover {
+  color: #4388cc;
+}
+
 .feature-section-header {
   position: relative;
   z-index: 110;
@@ -390,6 +434,12 @@ a {
   padding-top: 128px;
   padding-bottom: 0px;
   text-align: center;
+}
+#completeState {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
 }
 
 .feature-img-wrap {

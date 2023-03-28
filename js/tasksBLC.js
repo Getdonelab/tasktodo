@@ -16,6 +16,39 @@ function toggleEmptyState(array) {
   }
 }
 
+function initThemeSelector() {
+  var themeSelect = document.getElementById("themeSelect");
+  var styleSheet = document.getElementById("themeStyleLink");
+  var currentTheme = localStorage.getItem("theme") || "default";
+
+  function activateTheme(themeName) {
+    styleSheet.setAttribute("href", `./css/themes/${themeName}.css`);
+  }
+
+  themeSelect.addEventListener("click", () => {
+    if (themeSelect.getAttribute("value") === "default") {
+      themeSelect.setAttribute("value", "light");
+      themeSelect.children[0].innerHTML = "Switch to Dark Theme";
+      activateTheme(themeSelect.getAttribute("value"));
+      localStorage.setItem("theme", themeSelect.getAttribute("value"));
+    } else {
+      themeSelect.setAttribute("value", "default");
+      themeSelect.children[0].innerHTML = "Switch to Light Theme";
+      activateTheme(themeSelect.getAttribute("value"));
+      localStorage.setItem("theme", themeSelect.getAttribute("value"));
+    }
+  });
+  themeSelect.setAttribute("value", currentTheme);
+  if (themeSelect.getAttribute("value") === "default") {
+    themeSelect.children[0].innerHTML = "Switch to Light Theme";
+  } else {
+    themeSelect.children[0].innerHTML = "Switch to Dark Theme";
+  }
+  activateTheme(currentTheme);
+}
+
+initThemeSelector();
+
 // Map through each Task
 function TaskIltration(array) {
   var incomplete = array.userTasks.filter((task) => {
@@ -232,42 +265,13 @@ function modifieTaskList(taskDescription, _id) {
   toggleEmptyState(userTasks.TasksList);
 }
 
-document.addEventListener("keypress", (e) => {
-  const editTask = e.target.closest("span");
-  if (editTask) {
-    document.addEventListener(
-      "click",
-      (event) => {
-        var isClickInside = editTask.contains(event.target);
-
-        if (!isClickInside) {
-          var _id = editTask.parentElement.parentElement.id;
-
-          var index = userTasks.TasksList.findIndex(({ id }) => id == _id);
-          userTasks.TasksList[index].taskDescription = editTask.innerHTML;
-          console.log(userTasks.TasksList[index]);
-          chrome.storage.sync.set({ userTasks: userTasks.TasksList.reverse() });
-          document.querySelector("span").removeAttribute("contenteditable");
-        }
-      },
-      { once: true }
-    );
-  }
-});
-
 document.onkeyup = function (event) {
   const editTask = event.target.closest("span");
   if (editTask) {
-    //work here not on enter but every key press
-    // event.preventDefault();
-    // document.querySelector("span").removeAttribute("contenteditable");
     var _id = editTask.parentElement.parentElement.parentElement.id;
-    console.log(_id);
 
     var index = userTasks.TasksList.findIndex(({ id }) => id == _id);
-    console.log(index);
     userTasks.TasksList[index].taskDescription = editTask.innerHTML;
-    console.log(userTasks.TasksList[index]);
     chrome.storage.sync.set({ userTasks: userTasks.TasksList.reverse() });
   }
 };
@@ -379,8 +383,3 @@ document.addEventListener("click", function (e) {
 const uid = function () {
   return Date.now().toString(16) + Math.random().toString(16).slice(2);
 };
-
-// const editTask = function (e) {
-//   e.preventDefault();
-//   console.log("here");
-// };

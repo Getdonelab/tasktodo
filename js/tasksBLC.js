@@ -265,12 +265,40 @@ function modifieTaskList(taskDescription, _id) {
   toggleEmptyState(userTasks.TasksList);
 }
 
+document.addEventListener("keypress", (e) => {
+  const editTask = e.target.closest("span");
+  if (editTask) {
+    document.addEventListener(
+      "click",
+      (event) => {
+        var isClickInside = editTask.contains(event.target);
+
+        if (!isClickInside) {
+          var _id = editTask.parentElement.parentElement.parentElement.id;
+
+          var index = userTasks.TasksList.findIndex(({ id }) => id == _id);
+          userTasks.TasksList[index].taskDescription = editTask.innerHTML;
+          e.target
+            .closest("#completeState")
+            .setAttribute("txtcontent", editTask.innerHTML);
+          chrome.storage.sync.set({ userTasks: userTasks.TasksList.reverse() });
+          document.querySelector("span").removeAttribute("contenteditable");
+        }
+      },
+      { once: true }
+    );
+  }
+});
+
 document.onkeyup = function (event) {
   const editTask = event.target.closest("span");
   if (editTask) {
     var _id = editTask.parentElement.parentElement.parentElement.id;
 
     var index = userTasks.TasksList.findIndex(({ id }) => id == _id);
+    event.target
+      .closest("#completeState")
+      .setAttribute("txtcontent", editTask.innerHTML);
     userTasks.TasksList[index].taskDescription = editTask.innerHTML;
     chrome.storage.sync.set({ userTasks: userTasks.TasksList.reverse() });
   }

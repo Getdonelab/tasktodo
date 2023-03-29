@@ -34,4 +34,9 @@
   --text-block-color: #40444d;
   --nav-link-color: rgba(74, 78, 88, 0.8);
   --nav-link-text-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  /* about */
+  --feature-img-wrap-color: #000;
+  --feature-img-wrap-border: 1px solid #dde2ee;
+  --feature-img-wrap-bg-color-line: rgba(180, 188, 208, 0.08);
+  --text-span-color: rgba(0, 0, 0, 0.6);
 }

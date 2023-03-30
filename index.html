@@ -39,6 +39,11 @@
     <meta content="summary_large_image" name="twitter:card" />
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <meta content="Webflow" name="generator" />
+    <link
+      rel="stylesheet"
+      id="themeStyleLink"
+      href="./css/themes/default.css"
+    />
     <link href="css/normalize.css" rel="stylesheet" type="text/css" />
     <link href="css/webflow.css" rel="stylesheet" type="text/css" />
     <link
@@ -49,7 +54,7 @@
     <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <link href="images/webclip.png" rel="apple-touch-icon" />
   </head>
-  <body class="body-dark">
+  <body>
     <div class="page-wrapper">
       <main class="main">
         <header class="hero">
@@ -118,7 +123,7 @@
             <a href="about.html" class="nav-link w-inline-block">
               <div>About</div>
             </a>
-            <a href="white.html" class="nav-link w-inline-block">
+            <a id="themeSelect" value="default" class="nav-link w-inline-block">
               <div>Switch to Light Theme</div>
             </a>
             <a

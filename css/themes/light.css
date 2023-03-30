@@ -1,0 +1,42 @@
+:root {
+  --primary-background-color: #ebebed;
+  --primary-text-color: #ebebed;
+  --background-image-color: linear-gradient(
+    156deg,
+    #000 30%,
+    hsla(0, 0%, 100%, 0.38)
+  );
+  --feature-img-background-webkit: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    from(rgba(0, 0, 0, 0.02)),
+    to(transparent)
+  );
+  --feature-img-background-color: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.02),
+    transparent
+  );
+  --command-menu-input-border: 1px solid #000;
+  --command-menu-input-bg: rgba(255, 255, 255, 0.2);
+  --command-menu-input-text: #000;
+  --command-menu-input-focus: 0 0 30px 0 rgba(63, 134, 205, 0.5);
+  --command-menu-option-border-right: 1px solid rgba(0, 0, 0, 0.1);
+  --command-menu-option-border-left: 1px solid rgba(0, 0, 0, 0.1);
+  --command-menu-option-border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  --command-menu-option-bg-color: rgba(180, 188, 208, 0.08);
+  --command-menu-option-hover-bg-color: rgba(0, 0, 0, 0.04);
+  --checkbox-label-color: #000;
+  --stars-background-filter-webkit: invert(100%);
+  --stars-background-filter: invert(100%);
+  --stars-bottom-bg-color: #ebebed;
+  --text-block-color: #40444d;
+  --nav-link-color: rgba(74, 78, 88, 0.8);
+  --nav-link-text-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  /* about */
+  --feature-img-wrap-color: #000;
+  --feature-img-wrap-border: 1px solid #dde2ee;
+  --feature-img-wrap-bg-color-line: rgba(180, 188, 208, 0.08);
+  --text-span-color: rgba(0, 0, 0, 0.6);
+}

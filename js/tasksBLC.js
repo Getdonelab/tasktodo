@@ -16,6 +16,7 @@ function toggleEmptyState(array) {
   }
 }
 
+// Select intial theme
 function initThemeSelector() {
   var themeSelect = document.getElementById("themeSelect");
   var styleSheet = document.getElementById("themeStyleLink");

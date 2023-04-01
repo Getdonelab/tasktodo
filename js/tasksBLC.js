@@ -8,11 +8,14 @@ function toggleEmptyState(array) {
   if (array.length > 0) {
     document.getElementById("toggleEmptyState").style.display = "none";
     var element = document.getElementById("email-form");
+    var addTaskInput = document.getElementById("myText");
     element.classList.remove("form");
   } else {
     document.getElementById("toggleEmptyState").style.display = "block";
     var element = document.getElementById("email-form");
+    var addTaskInput = document.getElementById("myText");
     element.classList.add("form");
+    addTaskInput.focus();
   }
 }
 
@@ -93,20 +96,7 @@ function TaskIltration(array) {
         src="images/x-icon.svg"
         id ="${task.taskDescription}"
         loading="lazy"
-        style="
-          -webkit-transform: translate3d(1px, 0, 0)
-            scale3d(1, 1, 1) rotateX(0) rotateY(0)
-            rotateZ(0) skew(0, 0);
-          -moz-transform: translate3d(1px, 0, 0)
-            scale3d(1, 1, 1) rotateX(0) rotateY(0)
-            rotateZ(0) skew(0, 0);
-          -ms-transform: translate3d(1px, 0, 0)
-            scale3d(1, 1, 1) rotateX(0) rotateY(0)
-            rotateZ(0) skew(0, 0);
-          transform: translate3d(1px, 0, 0)
-            scale3d(1, 1, 1) rotateX(0) rotateY(0)
-            rotateZ(0) skew(0, 0);
-        "
+        
         data-w-id="f9655d9a-c9ef-4b52-07e0-d4021edf82d6"
         alt=""
         class="delete-icon"
@@ -150,20 +140,7 @@ function TaskIltration(array) {
         src="images/x-icon.svg"
         id ="${task.taskDescription}"
         loading="lazy"
-        style="
-          -webkit-transform: translate3d(1px, 0, 0)
-            scale3d(1, 1, 1) rotateX(0) rotateY(0)
-            rotateZ(0) skew(0, 0);
-          -moz-transform: translate3d(1px, 0, 0)
-            scale3d(1, 1, 1) rotateX(0) rotateY(0)
-            rotateZ(0) skew(0, 0);
-          -ms-transform: translate3d(1px, 0, 0)
-            scale3d(1, 1, 1) rotateX(0) rotateY(0)
-            rotateZ(0) skew(0, 0);
-          transform: translate3d(1px, 0, 0)
-            scale3d(1, 1, 1) rotateX(0) rotateY(0)
-            rotateZ(0) skew(0, 0);
-        "
+        
         data-w-id="f9655d9a-c9ef-4b52-07e0-d4021edf82d6"
         alt=""
         class="delete-icon"
@@ -228,20 +205,7 @@ newTask.addEventListener("keypress", (event) => {
       id ="${event.target.value}"
         src="images/x-icon.svg"
         loading="lazy"
-        style="
-          -webkit-transform: translate3d(1px, 0, 0)
-            scale3d(1, 1, 1) rotateX(0) rotateY(0)
-            rotateZ(0) skew(0, 0);
-          -moz-transform: translate3d(1px, 0, 0)
-            scale3d(1, 1, 1) rotateX(0) rotateY(0)
-            rotateZ(0) skew(0, 0);
-          -ms-transform: translate3d(1px, 0, 0)
-            scale3d(1, 1, 1) rotateX(0) rotateY(0)
-            rotateZ(0) skew(0, 0);
-          transform: translate3d(1px, 0, 0)
-            scale3d(1, 1, 1) rotateX(0) rotateY(0)
-            rotateZ(0) skew(0, 0);
-        "
+        
         data-w-id="f9655d9a-c9ef-4b52-07e0-d4021edf82d6"
         alt=""
         class="delete-icon"
@@ -268,6 +232,10 @@ function modifieTaskList(taskDescription, _id) {
 document.addEventListener("keypress", (e) => {
   const editTask = e.target.closest("span");
   if (editTask) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      document.querySelector("span").removeAttribute("contenteditable");
+    }
     document.addEventListener(
       "click",
       (event) => {
@@ -338,11 +306,11 @@ document.addEventListener("click", function (e) {
       var TaskText = prnt.querySelector("span");
       var checkbox = prnt.querySelector("#task");
       var taskItem = prnt.closest(".command-menu-option");
-      var taskTodos = prnt.closest(".taskTodos");
+      var completed = prnt.closest(".taskTodos").querySelector(".completed");
 
       prnt.closest(".command-menu-option").remove();
 
-      taskTodos.appendChild(taskItem);
+      completed.prepend(taskItem);
 
       var tempUser = userTasks.TasksList[index];
 
@@ -350,7 +318,7 @@ document.addEventListener("click", function (e) {
 
       userTasks.TasksList.push(tempUser);
 
-      chrome.storage.sync.set({ userTasks: userTasks.TasksList.reverse() });
+      chrome.storage.sync.set({ userTasks: userTasks.TasksList });
 
       checkbox.classList.remove("checked");
       checkbox.classList.add("w--redirected-checked");
@@ -364,6 +332,10 @@ document.addEventListener("click", function (e) {
         .closest(".taskTodos")
         .querySelector(".incomplete");
 
+      var tempElement = prnt.closest(".command-menu-option");
+      prnt.closest(".command-menu-option").remove();
+      incompleteTasks.appendChild(tempElement);
+
       checkbox.classList.remove("w--redirected-checked"); /*clean this up*/
       checkbox.classList.add("checked");
       TaskText.style.textDecoration = "none";
@@ -374,14 +346,10 @@ document.addEventListener("click", function (e) {
       userTasks.TasksList.splice(index, 1);
 
       chrome.storage.sync.set({
-        userTasks: [tempUser, ...userTasks.TasksList.reverse()],
+        userTasks: [tempUser, ...userTasks.TasksList],
       });
 
-      userTasks.TasksList = [tempUser, ...userTasks.TasksList.reverse()];
-
-      var tempElement = prnt.closest(".command-menu-option");
-      prnt.closest(".command-menu-option").remove();
-      incompleteTasks.appendChild(tempElement);
+      userTasks.TasksList = [tempUser, ...userTasks.TasksList];
     }
   }
   if (editTask) {

@@ -23,10 +23,10 @@
   --command-menu-input-bg: rgba(0, 0, 0, 0.3);
   --command-menu-input-text: #fff;
   --command-menu-input-focus: 0 1px 40px 0 rgba(63, 134, 205, 0.5);
-  --command-menu-option-border-right: 1px solid rgba(200, 200, 200, 0.9);
-  --command-menu-option-border-left: 1px solid rgba(200, 200, 200, 0.9);
+  --command-menu-option-border-right: none;
+  --command-menu-option-border-left: none;
   --command-menu-option-border-bottom: 1px solid hsla(0, 0%, 100%, 0.1);
-  --command-menu-option-bg-color: rgba(180, 188, 208, 0.08);
+  --command-menu-option-bg-color: none;
   --command-menu-option-hover-bg-color: hsla(0, 0%, 100%, 0.05);
   --checkbox-label-color: #fff;
   --stars-background-filter-webkit: invert(0%);

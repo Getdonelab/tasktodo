@@ -11,7 +11,7 @@ function toggleEmptyState(array) {
     var addTaskInput = document.getElementById("myText");
     element.classList.remove("form");
   } else {
-    document.getElementById("toggleEmptyState").style.display = "block";
+    document.getElementById("toggleEmptyState").style.display = "flex";
     var element = document.getElementById("email-form");
     var addTaskInput = document.getElementById("myText");
     element.classList.add("form");
@@ -92,15 +92,11 @@ function TaskIltration(array) {
     <div class="functions">
     <button class="Todo__Edit">edit</button>
     <div class="div-block" id="cross">
-      <img
-        src="images/x-icon.svg"
-        id ="${task.taskDescription}"
-        loading="lazy"
-        
-        data-w-id="f9655d9a-c9ef-4b52-07e0-d4021edf82d6"
-        alt=""
-        class="delete-icon"
-      />
+    <svg width="12" height="12" viewBox="0 0 15 15" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M6.79293 7.50004L1.14648 1.85359L1.85359 1.14648L7.50004 6.79293L13.1465 1.14648L13.8536 1.85359L8.20714 7.50004L13.8536 13.1465L13.1465 13.8536L7.50004 8.20714L1.85359 13.8536L1.14648 13.1465L6.79293 7.50004Z" fill="rgba(180, 188, 208, 0.8)"/>
+</svg>
+
+      
     </div>
     </div>`;
     newTextNode.insertAdjacentHTML("beforeend", stringNode);
@@ -136,15 +132,11 @@ function TaskIltration(array) {
     <div class="functions">
     <button class="Todo__Edit">edit</button>
     <div class="div-block" id="cross">
-      <img
-        src="images/x-icon.svg"
-        id ="${task.taskDescription}"
-        loading="lazy"
-        
-        data-w-id="f9655d9a-c9ef-4b52-07e0-d4021edf82d6"
-        alt=""
-        class="delete-icon"
-      />
+    <svg width="12" height="12" viewBox="0 0 15 15" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M6.79293 7.50004L1.14648 1.85359L1.85359 1.14648L7.50004 6.79293L13.1465 1.14648L13.8536 1.85359L8.20714 7.50004L13.8536 13.1465L13.1465 13.8536L7.50004 8.20714L1.85359 13.8536L1.14648 13.1465L6.79293 7.50004Z" />
+</svg>
+
+      
     </div>
     </div>`;
     newTextNode.insertAdjacentHTML("beforeend", stringNode);
@@ -201,15 +193,11 @@ newTask.addEventListener("keypress", (event) => {
     <div class="functions">
     <button class="Todo__Edit">edit</button>
     <div class="div-block" id="cross" ">
-      <img
-      id ="${event.target.value}"
-        src="images/x-icon.svg"
-        loading="lazy"
-        
-        data-w-id="f9655d9a-c9ef-4b52-07e0-d4021edf82d6"
-        alt=""
-        class="delete-icon"
-      />
+    <svg width="12" height="12" viewBox="0 0 15 15" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M6.79293 7.50004L1.14648 1.85359L1.85359 1.14648L7.50004 6.79293L13.1465 1.14648L13.8536 1.85359L8.20714 7.50004L13.8536 13.1465L13.1465 13.8536L7.50004 8.20714L1.85359 13.8536L1.14648 13.1465L6.79293 7.50004Z" fill="rgba(180, 188, 208, 0.8)"/>
+</svg>
+
+      
     </div>
     </div>`;
 
@@ -375,6 +363,14 @@ document.addEventListener("click", function (e) {
     }
   }
 });
+
+//empty state on click input focus
+
+document.getElementById("empty-state-txt").addEventListener("click", (e) => {
+  document.getElementById("myText").focus();
+});
+
+//unique ID generation
 
 const uid = function () {
   return Date.now().toString(16) + Math.random().toString(16).slice(2);

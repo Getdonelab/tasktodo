@@ -8,11 +8,14 @@ function toggleEmptyState(array) {
   if (array.length > 0) {
     document.getElementById("toggleEmptyState").style.display = "none";
     var element = document.getElementById("email-form");
+    var addTaskInput = document.getElementById("myText");
     element.classList.remove("form");
   } else {
-    document.getElementById("toggleEmptyState").style.display = "block";
+    document.getElementById("toggleEmptyState").style.display = "flex";
     var element = document.getElementById("email-form");
+    var addTaskInput = document.getElementById("myText");
     element.classList.add("form");
+    addTaskInput.focus();
   }
 }
 
@@ -90,28 +93,11 @@ function TaskIltration(array) {
     <div class="functions">
     <button class="Todo__Edit">edit</button>
     <div class="div-block" id="cross">
-      <img
-        src="images/x-icon.svg"
-        id ="${task.taskDescription}"
-        loading="lazy"
-        style="
-          -webkit-transform: translate3d(1px, 0, 0)
-            scale3d(1, 1, 1) rotateX(0) rotateY(0)
-            rotateZ(0) skew(0, 0);
-          -moz-transform: translate3d(1px, 0, 0)
-            scale3d(1, 1, 1) rotateX(0) rotateY(0)
-            rotateZ(0) skew(0, 0);
-          -ms-transform: translate3d(1px, 0, 0)
-            scale3d(1, 1, 1) rotateX(0) rotateY(0)
-            rotateZ(0) skew(0, 0);
-          transform: translate3d(1px, 0, 0)
-            scale3d(1, 1, 1) rotateX(0) rotateY(0)
-            rotateZ(0) skew(0, 0);
-        "
-        data-w-id="f9655d9a-c9ef-4b52-07e0-d4021edf82d6"
-        alt=""
-        class="delete-icon"
-      />
+    <svg width="12" height="12" viewBox="0 0 15 15" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M6.79293 7.50004L1.14648 1.85359L1.85359 1.14648L7.50004 6.79293L13.1465 1.14648L13.8536 1.85359L8.20714 7.50004L13.8536 13.1465L13.1465 13.8536L7.50004 8.20714L1.85359 13.8536L1.14648 13.1465L6.79293 7.50004Z" fill="rgba(180, 188, 208, 0.8)"/>
+</svg>
+
+      
     </div>
     </div>`;
     newTextNode.insertAdjacentHTML("beforeend", stringNode);
@@ -147,28 +133,11 @@ function TaskIltration(array) {
     <div class="functions">
     <button class="Todo__Edit">edit</button>
     <div class="div-block" id="cross">
-      <img
-        src="images/x-icon.svg"
-        id ="${task.taskDescription}"
-        loading="lazy"
-        style="
-          -webkit-transform: translate3d(1px, 0, 0)
-            scale3d(1, 1, 1) rotateX(0) rotateY(0)
-            rotateZ(0) skew(0, 0);
-          -moz-transform: translate3d(1px, 0, 0)
-            scale3d(1, 1, 1) rotateX(0) rotateY(0)
-            rotateZ(0) skew(0, 0);
-          -ms-transform: translate3d(1px, 0, 0)
-            scale3d(1, 1, 1) rotateX(0) rotateY(0)
-            rotateZ(0) skew(0, 0);
-          transform: translate3d(1px, 0, 0)
-            scale3d(1, 1, 1) rotateX(0) rotateY(0)
-            rotateZ(0) skew(0, 0);
-        "
-        data-w-id="f9655d9a-c9ef-4b52-07e0-d4021edf82d6"
-        alt=""
-        class="delete-icon"
-      />
+    <svg width="12" height="12" viewBox="0 0 15 15" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M6.79293 7.50004L1.14648 1.85359L1.85359 1.14648L7.50004 6.79293L13.1465 1.14648L13.8536 1.85359L8.20714 7.50004L13.8536 13.1465L13.1465 13.8536L7.50004 8.20714L1.85359 13.8536L1.14648 13.1465L6.79293 7.50004Z" />
+</svg>
+
+      
     </div>
     </div>`;
     newTextNode.insertAdjacentHTML("beforeend", stringNode);
@@ -225,28 +194,11 @@ newTask.addEventListener("keypress", (event) => {
     <div class="functions">
     <button class="Todo__Edit">edit</button>
     <div class="div-block" id="cross" ">
-      <img
-      id ="${event.target.value}"
-        src="images/x-icon.svg"
-        loading="lazy"
-        style="
-          -webkit-transform: translate3d(1px, 0, 0)
-            scale3d(1, 1, 1) rotateX(0) rotateY(0)
-            rotateZ(0) skew(0, 0);
-          -moz-transform: translate3d(1px, 0, 0)
-            scale3d(1, 1, 1) rotateX(0) rotateY(0)
-            rotateZ(0) skew(0, 0);
-          -ms-transform: translate3d(1px, 0, 0)
-            scale3d(1, 1, 1) rotateX(0) rotateY(0)
-            rotateZ(0) skew(0, 0);
-          transform: translate3d(1px, 0, 0)
-            scale3d(1, 1, 1) rotateX(0) rotateY(0)
-            rotateZ(0) skew(0, 0);
-        "
-        data-w-id="f9655d9a-c9ef-4b52-07e0-d4021edf82d6"
-        alt=""
-        class="delete-icon"
-      />
+    <svg width="12" height="12" viewBox="0 0 15 15" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M6.79293 7.50004L1.14648 1.85359L1.85359 1.14648L7.50004 6.79293L13.1465 1.14648L13.8536 1.85359L8.20714 7.50004L13.8536 13.1465L13.1465 13.8536L7.50004 8.20714L1.85359 13.8536L1.14648 13.1465L6.79293 7.50004Z" fill="rgba(180, 188, 208, 0.8)"/>
+</svg>
+
+      
     </div>
     </div>`;
 
@@ -269,6 +221,10 @@ function modifieTaskList(taskDescription, _id) {
 document.addEventListener("keypress", (e) => {
   const editTask = e.target.closest("span");
   if (editTask) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      document.querySelector("span").removeAttribute("contenteditable");
+    }
     document.addEventListener(
       "click",
       (event) => {
@@ -339,11 +295,11 @@ document.addEventListener("click", function (e) {
       var TaskText = prnt.querySelector("span");
       var checkbox = prnt.querySelector("#task");
       var taskItem = prnt.closest(".command-menu-option");
-      var taskTodos = prnt.closest(".taskTodos");
+      var completed = prnt.closest(".taskTodos").querySelector(".completed");
 
       prnt.closest(".command-menu-option").remove();
 
-      taskTodos.appendChild(taskItem);
+      completed.prepend(taskItem);
 
       var tempUser = userTasks.TasksList[index];
 
@@ -351,7 +307,7 @@ document.addEventListener("click", function (e) {
 
       userTasks.TasksList.push(tempUser);
 
-      chrome.storage.sync.set({ userTasks: userTasks.TasksList.reverse() });
+      chrome.storage.sync.set({ userTasks: userTasks.TasksList });
 
       checkbox.classList.remove("checked");
       checkbox.classList.add("w--redirected-checked");
@@ -365,6 +321,10 @@ document.addEventListener("click", function (e) {
         .closest(".taskTodos")
         .querySelector(".incomplete");
 
+      var tempElement = prnt.closest(".command-menu-option");
+      prnt.closest(".command-menu-option").remove();
+      incompleteTasks.appendChild(tempElement);
+
       checkbox.classList.remove("w--redirected-checked"); /*clean this up*/
       checkbox.classList.add("checked");
       TaskText.style.textDecoration = "none";
@@ -375,14 +335,10 @@ document.addEventListener("click", function (e) {
       userTasks.TasksList.splice(index, 1);
 
       chrome.storage.sync.set({
-        userTasks: [tempUser, ...userTasks.TasksList.reverse()],
+        userTasks: [tempUser, ...userTasks.TasksList],
       });
 
-      userTasks.TasksList = [tempUser, ...userTasks.TasksList.reverse()];
-
-      var tempElement = prnt.closest(".command-menu-option");
-      prnt.closest(".command-menu-option").remove();
-      incompleteTasks.appendChild(tempElement);
+      userTasks.TasksList = [tempUser, ...userTasks.TasksList];
     }
   }
   if (editTask) {
@@ -408,6 +364,14 @@ document.addEventListener("click", function (e) {
     }
   }
 });
+
+//empty state on click input focus
+
+document.getElementById("empty-state-txt").addEventListener("click", (e) => {
+  document.getElementById("myText").focus();
+});
+
+//unique ID generation
 
 const uid = function () {
   return Date.now().toString(16) + Math.random().toString(16).slice(2);

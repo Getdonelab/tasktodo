@@ -113,7 +113,7 @@ function TaskIltration(array) {
   completed.reverse().forEach((task) => {
     var newTextNode = document.getElementsByClassName("completed")[0];
     var stringNode = `
-    <div class="task-container show" draggable="true" id="${task.id}">
+    <div class="task-container show" id="${task.id}">
     <div
     data-w-id="f9655d9a-c9ef-4b52-07e0-d4021edf82cf"
     class="command-menu-option "
@@ -321,6 +321,7 @@ document.addEventListener("click", function (e) {
       var completed = prnt.closest(".taskTodos").querySelector(".completed");
 
       taskItem.classList.remove("show");
+      taskItem.setAttribute("draggable", false);
       taskItem.addEventListener(
         "transitionend",
         () => {
@@ -353,9 +354,7 @@ document.addEventListener("click", function (e) {
         .querySelector(".incomplete");
       var tempElement = prnt.closest(".task-container");
 
-      // taskItem.classList.add("show");
-
-      prnt.closest(".task-container").remove();
+      tempElement.setAttribute("draggable", true);
       incompleteTasks.appendChild(tempElement);
 
       checkbox.classList.remove("w--redirected-checked"); /*clean this up*/
@@ -461,20 +460,6 @@ if (incompleteContainer) {
       incompleteContainer.appendChild(draggable);
     } else {
       incompleteContainer.insertBefore(draggable, afterElement);
-    }
-  });
-}
-
-//complete container
-if (completeContainer) {
-  completeContainer.addEventListener("dragover", (e) => {
-    e.preventDefault();
-    const afterElement = getDragAfterElement(completeContainer, e.clientY);
-    const draggable = document.querySelector(".dragging");
-    if (afterElement == null) {
-      completeContainer.appendChild(draggable);
-    } else {
-      completeContainer.insertBefore(draggable, afterElement);
     }
   });
 }

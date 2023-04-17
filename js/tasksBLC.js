@@ -9,10 +9,12 @@ let completeContainer = document.querySelector(".complete");
 // Toggle the Empty state
 function toggleEmptyState(array) {
   if (array && array.length > 0) {
-    document.getElementById("toggleEmptyState").style.display = "none";
+    var emptyState = document.getElementById("toggleEmptyState");
+    // emptyState ? emptyState.style.display = "none": ;
+    emptyState && (emptyState.style.display = "none");
     var element = document.getElementById("email-form");
     var addTaskInput = document.getElementById("myText");
-    element.classList.remove("form");
+    element && element.classList.remove("form");
   } else {
     document.getElementById("toggleEmptyState").style.display = "flex";
     var element = document.getElementById("email-form");
@@ -108,7 +110,7 @@ function TaskIltration(array) {
     </div>
     </div>
     </div>`;
-    newTextNode.insertAdjacentHTML("beforeend", stringNode);
+    newTextNode && newTextNode.insertAdjacentHTML("beforeend", stringNode);
   });
   completed.reverse().forEach((task) => {
     var newTextNode = document.getElementsByClassName("completed")[0];
@@ -153,7 +155,7 @@ function TaskIltration(array) {
     </div>
     </div>
     </div>`;
-    newTextNode.insertAdjacentHTML("beforeend", stringNode);
+    newTextNode && newTextNode.insertAdjacentHTML("beforeend", stringNode);
   });
 }
 
@@ -172,13 +174,14 @@ window.onload = () => {
 };
 
 var newTask = document.getElementById("myText");
-newTask.addEventListener("keypress", (event) => {
-  if (event.key === "Enter") {
-    var _id = uid();
-    event.preventDefault();
+if (newTask) {
+  newTask.addEventListener("keypress", (event) => {
+    if (event.key === "Enter") {
+      var _id = uid();
+      event.preventDefault();
 
-    var newTextNode = document.getElementsByClassName("incomplete")[0];
-    var stringNode = `
+      var newTextNode = document.getElementsByClassName("incomplete")[0];
+      var stringNode = `
     <div class="task-container show" draggable="true" id="${_id}">
     <div
     data-w-id="f9655d9a-c9ef-4b52-07e0-d4021edf82cf"
@@ -221,13 +224,14 @@ newTask.addEventListener("keypress", (event) => {
     </div>
     </div>`;
 
-    newTextNode.insertAdjacentHTML("afterbegin", stringNode);
+      newTextNode.insertAdjacentHTML("afterbegin", stringNode);
 
-    modifieTaskList(event.target.value, _id);
-    newTask.value = "";
-    UpdateTodoState();
-  }
-});
+      modifieTaskList(event.target.value, _id);
+      newTask.value = "";
+      UpdateTodoState();
+    }
+  });
+}
 
 function modifieTaskList(taskDescription, _id) {
   userTasks.TasksList.push({
@@ -405,6 +409,7 @@ let Pos;
 
 document.addEventListener("dragstart", (e) => {
   let draggable = e.target;
+  e.dataTransfer.effectAllowed = "move";
   const box = draggable.getBoundingClientRect();
   Pos = Math.trunc(box.top - box.height / 2);
   draggable.classList.add("dragging");
@@ -489,10 +494,12 @@ function UpdateTodoState() {
   completeContainer = document.querySelector(".complete");
 }
 
-//empty state on click input focus
-document.getElementById("empty-state-txt").addEventListener("click", (e) => {
-  document.getElementById("myText").focus();
-});
+//empty state on click input focus]
+if (document.getElementById("empty-state-txt")) {
+  document.getElementById("empty-state-txt").addEventListener("click", (e) => {
+    document.getElementById("myText").focus();
+  });
+}
 
 //unique ID generation
 

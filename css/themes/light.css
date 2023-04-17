@@ -44,4 +44,6 @@
     #000000 30%,
     hsla(0, 0%, 0%, 0.38)
   );
+  --edit-icon-color: rgba(88, 92, 101, 0.8);
+  --edit-icon-hover-color: #111; /*change color */
 }

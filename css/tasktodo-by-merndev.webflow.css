@@ -410,6 +410,9 @@ a {
   border-right: var(--command-menu-option-border-right);
   border-left: var(--command-menu-option-border-left);
 }
+body.inheritCursors * {
+  cursor: inherit !important;
+}
 
 .command-menu-option:hover {
   background-color: var(--command-menu-option-hover-bg-color);
@@ -440,13 +443,13 @@ a {
 .Todo__Edit {
   align-items: flex-end;
   background-color: inherit;
-  color: rgba(180, 188, 208, 0.8);
+  color: var(--edit-icon-color);
   font-size: 0.9em;
   transition: 0.3s;
   margin-right: 8px;
 }
 .Todo__Edit:hover {
-  color: #fff;
+  color: var(--edit-icon-hover-color);
 }
 
 .feature-section-header {
@@ -600,11 +603,11 @@ a {
 }
 .div-block svg path {
   transition: all 300ms ease;
-  fill: rgba(180, 188, 208, 0.8);
+  fill: var(--edit-icon-color);
 }
 
 .div-block svg:hover path {
-  fill: #fff;
+  fill: var(--edit-icon-hover-color);
 }
 
 .dropdown-toggle {

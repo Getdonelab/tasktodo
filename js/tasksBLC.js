@@ -158,6 +158,13 @@ function TaskIltration(array) {
     newTextNode && newTextNode.insertAdjacentHTML("beforeend", stringNode);
   });
 }
+// For total task and completed task
+function TaskCount(tasklist) {
+  let totalTasklength = document.getElementById("total-task-length");
+  totalTasklength.innerHTML = tasklist.length;
+  let count = tasklist.filter((t) => t.check !== false).length;
+  document.getElementById("completed-task-length").innerHTML = count;
+}
 
 // On load find the list and ilterte through it
 window.onload = () => {
@@ -165,6 +172,7 @@ window.onload = () => {
     if (tz.userTasks && tz.userTasks.length > 0) {
       userTasks = { TasksList: [...tz.userTasks] };
       toggleEmptyState(tz.userTasks);
+      TaskCount(tz.userTasks);
       TaskIltration(tz);
       UpdateTodoState();
     } else {
@@ -240,6 +248,8 @@ function modifieTaskList(taskDescription, _id) {
     check: false,
   });
   chrome.storage.sync.set({ userTasks: userTasks.TasksList });
+
+  TaskCount(userTasks.TasksList);
   toggleEmptyState(userTasks.TasksList);
   UpdateTodoState();
 }
@@ -304,6 +314,8 @@ document.addEventListener("click", function (e) {
     toggleEmptyState(userTasks.TasksList);
 
     target.closest(".task-container").remove();
+
+    TaskCount(userTasks.TasksList);
     UpdateTodoState();
   } else if (radio) {
     const index = userTasks.TasksList.findIndex(
@@ -316,6 +328,7 @@ document.addEventListener("click", function (e) {
 
     chrome.storage.sync.set({ userTasks: userTasks.TasksList });
 
+    TaskCount(userTasks.TasksList);
     var prnt = radio.parentElement;
 
     if (userTasks.TasksList[index].check) {
@@ -502,7 +515,6 @@ if (document.getElementById("empty-state-txt")) {
 }
 
 //unique ID generation
-
 const uid = function () {
   return Date.now().toString(16) + Math.random().toString(16).slice(2);
 };

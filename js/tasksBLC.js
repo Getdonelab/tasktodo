@@ -257,9 +257,7 @@ function modifieTaskList(taskDescription, _id) {
 document.addEventListener("keypress", (e) => {
   const editTask = e.target.closest("span");
   if (editTask) {
-    console.log("here");
     if (e.key === "Enter") {
-      console.log("Enter");
       e.preventDefault();
       e.target.closest("#completeState").setAttribute("clickable", "true");
       document.querySelector("span").removeAttribute("contenteditable");
@@ -379,7 +377,6 @@ document.addEventListener("click", function (e) {
     e.preventDefault();
 
     var el = editTask.parentElement.parentElement.querySelector("span");
-    console.log(el.closest("#completeState"));
     el.closest("#completeState").setAttribute("clickable", "false");
     el.setAttribute("contenteditable", true);
     var range, selection;

@@ -381,8 +381,6 @@ document.addEventListener("click", function (e) {
     var el = editTask.parentElement.parentElement.querySelector("span");
     console.log(el.closest("#completeState"));
     el.closest("#completeState").setAttribute("clickable", "false");
-    // el.parentElement.parentElement.style.pointerEvents = "none";
-    // el.style.pointerEvents = "auto";
     el.setAttribute("contenteditable", true);
     var range, selection;
     if (document.createRange) {

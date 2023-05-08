@@ -76,7 +76,7 @@ function TaskIltration(array) {
     class="command-menu-option "
     id="${task.id}"
   >
-  <div id="completeState" txtcontent="${task.taskDescription}">
+  <div id="completeState" txtcontent="${task.taskDescription}" clickable=true>
     <label class="w-checkbox checkbox-field">
       <div
       
@@ -121,7 +121,7 @@ function TaskIltration(array) {
     class="command-menu-option "
     id="${task.id}"
   >
-  <div id="completeState" txtcontent="${task.taskDescription}">
+  <div id="completeState" txtcontent="${task.taskDescription}" clickable=true>
     <label class="w-checkbox checkbox-field">
       <div
       
@@ -196,7 +196,7 @@ if (newTask) {
     class="command-menu-option "
     id="${_id}"
   >
-  <div id="completeState" txtcontent="${event.target.value}">
+  <div id="completeState" txtcontent="${event.target.value}" clickable=true>
     <label class="w-checkbox checkbox-field">
       <div
       id="task"
@@ -257,29 +257,13 @@ function modifieTaskList(taskDescription, _id) {
 document.addEventListener("keypress", (e) => {
   const editTask = e.target.closest("span");
   if (editTask) {
+    console.log("here");
     if (e.key === "Enter") {
+      console.log("Enter");
       e.preventDefault();
+      e.target.closest("#completeState").setAttribute("clickable", "true");
       document.querySelector("span").removeAttribute("contenteditable");
     }
-    document.addEventListener(
-      "click",
-      (event) => {
-        var isClickInside = editTask.contains(event.target);
-
-        if (!isClickInside) {
-          var _id = editTask.parentElement.parentElement.parentElement.id;
-
-          var index = userTasks.TasksList.findIndex(({ id }) => id == _id);
-          userTasks.TasksList[index].taskDescription = editTask.innerHTML;
-          e.target
-            .closest("#completeState")
-            .setAttribute("txtcontent", editTask.innerHTML);
-          chrome.storage.sync.set({ userTasks: userTasks.TasksList });
-          document.querySelector("span").removeAttribute("contenteditable");
-        }
-      },
-      { once: true }
-    );
   }
 });
 
@@ -317,7 +301,7 @@ document.addEventListener("click", function (e) {
 
     TaskCount(userTasks.TasksList);
     UpdateTodoState();
-  } else if (radio) {
+  } else if (radio && radio.getAttribute("clickable") == "true") {
     const index = userTasks.TasksList.findIndex(
       ({ taskDescription }) =>
         taskDescription ==
@@ -395,6 +379,10 @@ document.addEventListener("click", function (e) {
     e.preventDefault();
 
     var el = editTask.parentElement.parentElement.querySelector("span");
+    console.log(el.closest("#completeState"));
+    el.closest("#completeState").setAttribute("clickable", "false");
+    // el.parentElement.parentElement.style.pointerEvents = "none";
+    // el.style.pointerEvents = "auto";
     el.setAttribute("contenteditable", true);
     var range, selection;
     if (document.createRange) {
@@ -413,6 +401,29 @@ document.addEventListener("click", function (e) {
       range.select(); //Select the range (make it the visible selection
     }
     UpdateTodoState();
+    const editTaskEle = e.target.closest(".command-menu-option");
+    document.addEventListener("click", (event) => {
+      var isClickInside = editTaskEle.contains(event.target);
+
+      if (!isClickInside) {
+        var _id = editTaskEle.id;
+
+        var index = userTasks.TasksList.findIndex(({ id }) => id == _id);
+        userTasks.TasksList[index].taskDescription =
+          editTaskEle.querySelector("span").innerHTML;
+        editTaskEle
+          .querySelector("#completeState")
+          .setAttribute(
+            "txtcontent",
+            editTaskEle.querySelector("span").innerHTML
+          );
+        chrome.storage.sync.set({ userTasks: userTasks.TasksList });
+        editTaskEle
+          .querySelector("#completeState")
+          .setAttribute("clickable", "true");
+        editTaskEle.querySelector("span").removeAttribute("contenteditable");
+      }
+    });
   }
 });
 
@@ -421,50 +432,52 @@ let Pos;
 // drag
 
 document.addEventListener("dragstart", (e) => {
-  let draggable = e.target;
-  e.dataTransfer.effectAllowed = "move";
-  const box = draggable.getBoundingClientRect();
-  Pos = Math.trunc(box.top - box.height / 2);
-  draggable.classList.add("dragging");
+  if (e.target.className.includes("task-container")) {
+    let draggable = e.target;
+    e.dataTransfer.effectAllowed = "move";
+    const box = draggable.getBoundingClientRect();
+    Pos = Math.trunc(box.top - box.height / 2);
+    draggable.classList.add("dragging");
 
-  draggable.addEventListener(
-    "dragend",
-    () => {
-      draggable.classList.remove("dragging");
-      const box = draggable.getBoundingClientRect();
-      Pos = (Pos - Math.trunc(box.top - box.height / 2)) / 60;
+    draggable.addEventListener(
+      "dragend",
+      () => {
+        draggable.classList.remove("dragging");
+        const box = draggable.getBoundingClientRect();
+        Pos = (Pos - Math.trunc(box.top - box.height / 2)) / 60;
 
-      if (Pos < 0) {
-        const draggableId = draggable.getAttribute("id");
-        const temp = userTasks.TasksList.find(
-          (task) => task.id === draggableId
-        );
-        const tempIndex = userTasks.TasksList.findIndex((task) => {
-          return task.id === draggableId;
-        });
+        if (Pos < 0) {
+          const draggableId = draggable.getAttribute("id");
+          const temp = userTasks.TasksList.find(
+            (task) => task.id === draggableId
+          );
+          const tempIndex = userTasks.TasksList.findIndex((task) => {
+            return task.id === draggableId;
+          });
 
-        for (let index = tempIndex; index > tempIndex + Pos; index--) {
-          userTasks.TasksList[index] = userTasks.TasksList[index - 1];
+          for (let index = tempIndex; index > tempIndex + Pos; index--) {
+            userTasks.TasksList[index] = userTasks.TasksList[index - 1];
+          }
+          userTasks.TasksList[tempIndex + Pos] = temp;
+        } else if (Pos > 0) {
+          const draggableId = draggable.getAttribute("id");
+          const temp = userTasks.TasksList.find(
+            (task) => task.id === draggableId
+          );
+          const tempIndex = userTasks.TasksList.findIndex(
+            (task) => task.id === draggableId
+          );
+
+          for (let index = tempIndex; index < tempIndex + Pos; index++) {
+            userTasks.TasksList[index] = userTasks.TasksList[index + 1];
+          }
+          userTasks.TasksList[tempIndex + Pos] = temp;
         }
-        userTasks.TasksList[tempIndex + Pos] = temp;
-      } else if (Pos > 0) {
-        const draggableId = draggable.getAttribute("id");
-        const temp = userTasks.TasksList.find(
-          (task) => task.id === draggableId
-        );
-        const tempIndex = userTasks.TasksList.findIndex(
-          (task) => task.id === draggableId
-        );
-
-        for (let index = tempIndex; index < tempIndex + Pos; index++) {
-          userTasks.TasksList[index] = userTasks.TasksList[index + 1];
-        }
-        userTasks.TasksList[tempIndex + Pos] = temp;
-      }
-      chrome.storage.sync.set({ userTasks: userTasks.TasksList });
-    },
-    { once: true }
-  );
+        chrome.storage.sync.set({ userTasks: userTasks.TasksList });
+      },
+      { once: true }
+    );
+  }
 });
 
 //incomplete container
@@ -474,10 +487,13 @@ if (incompleteContainer) {
 
     const afterElement = getDragAfterElement(incompleteContainer, e.clientY);
     const draggable = document.querySelector(".dragging");
-    if (afterElement == null) {
-      incompleteContainer.appendChild(draggable);
-    } else {
-      incompleteContainer.insertBefore(draggable, afterElement);
+
+    if (draggable && draggable.className.includes("task-container")) {
+      if (afterElement == null) {
+        incompleteContainer.appendChild(draggable);
+      } else {
+        incompleteContainer.insertBefore(draggable, afterElement);
+      }
     }
   });
 }

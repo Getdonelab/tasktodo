@@ -6,7 +6,7 @@
 >
   <head>
     <meta charset="utf-8" />
-    <title>TaskTodo — Manage your today todo list on a new tab.</title>
+    <title>New Tab — TaskTodo</title>
     <meta
       content="Organize your daily tasks with TaskTodo — Todo. Chrome extension that displays your to-do list on a New tab. Stay productive and conquer your daily tasks with ease. Try TaskTodo now."
       name="description"
@@ -38,7 +38,7 @@
     <meta property="og:type" content="website" />
     <meta content="summary_large_image" name="twitter:card" />
     <meta content="width=device-width, initial-scale=1" name="viewport" />
-    <meta content="Webflow" name="generator" />
+    <!-- <meta content="Webflow" name="generator" /> -->
     <link
       rel="stylesheet"
       id="themeStyleLink"
@@ -124,13 +124,13 @@
             <a id="themeSelect" value="default" class="nav-link w-inline-block">
               <div>Switch to Light Theme</div>
             </a>
-            <a
-              href="mailto:contact@getdonelab.com?subject=Hi%20Getdone%20-%20Lab!"
-              target="_blank"
-              class="nav-link w-inline-block"
-            >
-              <div>Registered by Getdone - Lab®</div>
-            </a>
+            <div class="todayTasks">
+              Tasks <br />
+              <span id="completed-task-length">0</span>/<span
+                id="total-task-length"
+                >0</span
+              >
+            </div>
           </div>
         </div>
       </div>

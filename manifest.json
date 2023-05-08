@@ -1,7 +1,7 @@
 {
   "name": "TaskTodo — Manage your today tasks on new tab",
   "description": "Tasktodo is a chrome extension. Try our to-do list today and experience the power of productivity!",
-  "version": "1.1",
+  "version": "1.2",
   "manifest_version": 3,
 
   "background": {
